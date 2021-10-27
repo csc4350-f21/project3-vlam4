@@ -28,15 +28,14 @@ function App() {
   let has_artists_saved = true;
   return (
     <>
-      <h1>MUSIC</h1>
+      <h1>Your Music</h1>
       {has_artists_saved ? (
         <>
           <h2>{args.song_name}</h2>
           <h3>by: {args.song_artist}</h3>
-          <h4>Saved Artists</h4>
+          <h4>Saved Artists:</h4>
           {args.artist_ids.map((artist_id) => (
             <form method="POST" action="/delete">
-
               <h4>{artist_id}</h4>
               <button onClick={deleteids}>delete</button>
             </form>
