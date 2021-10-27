@@ -100,6 +100,7 @@ def index():
         "song_image_url": song_image_url,
         "preview_url": preview_url,
         "genius_url": genius_url,
+        "artist_ids": artist_ids,
     }
     data = json.dumps(DATA)
     return flask.render_template(
@@ -195,7 +196,23 @@ def main():
     return flask.redirect(flask.url_for("login"))
 
 
+@app.route("/increment", methods=["POST"])
+def increment():
+    print(flask.request.json)
+    num_clicks = flask.request.json.get("num_clicks")
+    return flask.jsonify({"num_clicks_server": num_clicks + 1})
+
+
+@app.route("/add", methods=["POST"])
+def add():
+    artists = Artist.query.filter_by(username=current_user.username).all()
+    artist_ids = [a.artist_id for a in artists]
+    artist_id = flask.request.json.get("artist_id")
+    artist_ids.append(artist_id)
+    return flask.jsonify({"artist_ids": artist_ids})
+
+
 app.run(
-    host=os.getenv("IP", "0.0.0.0"),
-    port=int(os.getenv("PORT", 8081)),
+    # host=os.getenv("IP", "0.0.0.0"),
+    # port=int(os.getenv("PORT", 8081)),
 )
