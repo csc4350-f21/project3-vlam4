@@ -8,7 +8,7 @@ function App() {
   // in public/index.html in the script with id "data"
   const args = JSON.parse(document.getElementById("data").text);
   const [numClicks, setNumClicks] = useState(0);
-  const [artist_ids, setartistids] = args.artist_ids;
+
 
 
   function onButtonClick() {
@@ -25,29 +25,8 @@ function App() {
       setNumClicks(data.num_clicks_server);
     });
   }
-  function artistid_list() {
-    console.log(args.artist_ids.length)
-    var html_code = "";
-    for (var i = 0; i < args.artist_ids.length; i++) {
-      html_code += "<h4>" + args.artist_ids[i] + "</h4>";
-    }
-    sethtml_code(html_code);
-  }
 
-  function add() {
-    console.log(args)
-    console.log(JSON.stringify({ "artist_ids": artist_ids }));
-    fetch('/add', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ "artist_ids": artist_ids }),
-    }).then(response => response.json()).then(data => {
-      console.log(data);
-      setNumClicks(data.num_clicks_server);
-    });
-  }
+
 
 
   let has_artists_saved = true;
@@ -77,11 +56,6 @@ function App() {
         <h2>Looks like you don't have anything saved! Use the form below!</h2>
       }
       <h1>Save a favorite artist ID for later:</h1>
-      <form method="POST" action="/save">
-        <input type="text" name="artist_id" />
-        <input type="submit" value="add" />
-
-      </form>
       <form method="POST" action="/save">
         <input type="text" name="artist_id" />
         <input type="submit" value="Submit" />
