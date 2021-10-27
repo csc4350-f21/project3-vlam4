@@ -8,6 +8,7 @@ function App() {
   // in public/index.html in the script with id "data"
   const args = JSON.parse(document.getElementById("data").text);
   const [numClicks, setNumClicks] = useState(0);
+  const [deleteid, setDelete] = useState(0);
 
   function onButtonClick() {
     console.log(args)
@@ -24,11 +25,28 @@ function App() {
     });
   }
 
+  function deleteids() {
+    console.log(args)
+    console.log(JSON.stringify({ "deleteid": deleteid }));
+    fetch('/delete', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ "deleteid": deleteid }),
+    }).then(response => response.json()).then(data => {
+      console.log(data);
+      setDelete(data.delete_id);
+    });
+  }
+
+
   let has_artists_saved = true;
   return (
     <>
       <h1>Victor's Song Explorer</h1>
       <button onClick={onButtonClick}>click me!</button>
+      <button onClick={deleteids}>click me!</button>
       <h1> button had been clicked {numClicks} times!</h1>
       {has_artists_saved ? (
         <>
@@ -36,8 +54,9 @@ function App() {
           <h3>{args.song_artist}</h3>
           {args.artist_ids.map((artist_id) => (
             <form method="POST" action="/delete">
-              <input type="text" name="artist_id" value={artist_id} readonly />
-              <input type="submit" value="delete" />
+
+              <h4>{artist_id}</h4>  <input type="submit" value="delete" />
+
             </form>
           ))}
           <div>

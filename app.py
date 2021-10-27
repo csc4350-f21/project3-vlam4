@@ -190,6 +190,7 @@ def save():
     return flask.redirect(flask.url_for("bp.index"))
 
 
+# deletes artist id from the database
 @app.route("/delete", methods=["POST"])
 def delete():
     artist_id = flask.request.form.get("artist_id")
