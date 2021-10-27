@@ -193,16 +193,11 @@ def save():
 @app.route("/delete", methods=["POST"])
 def delete():
     artist_id = flask.request.form.get("artist_id")
-
-    try:
-        access_token = get_access_token()
-        get_song_data(artist_id, access_token)
-    except Exception:
-        flask.flash("Invalid artist ID entered")
-        return flask.redirect(flask.url_for("bp.index"))
-
     username = current_user.username
-    db.session.delete(Artist(artist_id=artist_id, username=username))
+    Artist.query.filter(
+        Artist.artist_id == artist_id, Artist.username == username
+    ).delete()
+
     db.session.commit()
     return flask.redirect(flask.url_for("bp.index"))
 

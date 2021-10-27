@@ -9,8 +9,6 @@ function App() {
   const args = JSON.parse(document.getElementById("data").text);
   const [numClicks, setNumClicks] = useState(0);
 
-
-
   function onButtonClick() {
     console.log(args)
     console.log(JSON.stringify({ "num_clicks": numClicks }));
@@ -26,9 +24,6 @@ function App() {
     });
   }
 
-
-
-
   let has_artists_saved = true;
   return (
     <>
@@ -40,7 +35,10 @@ function App() {
           <h2>{args.song_name}</h2>
           <h3>{args.song_artist}</h3>
           {args.artist_ids.map((artist_id) => (
-            <h4>{artist_id}</h4>
+            <form method="POST" action="/delete">
+              <input type="text" name="artist_id" value={artist_id} readonly />
+              <input type="submit" value="delete" />
+            </form>
           ))}
           <div>
             <img src={args.song_image_url} width={300} height={300} />
@@ -59,7 +57,6 @@ function App() {
       <form method="POST" action="/save">
         <input type="text" name="artist_id" />
         <input type="submit" value="Submit" />
-
       </form>
     </>
   );
